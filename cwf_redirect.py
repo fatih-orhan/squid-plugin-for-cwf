@@ -6,8 +6,6 @@ import logging
 import fls_lookup
 import traceback
 
-current_path = os.path.dirname(os.path.abspath(__file__))
-logging.error("Current Patch : %s" %current_path)
 logging.basicConfig(filename="/etc/squid/cwf_redirect.log", level=logging.DEBUG)
 
 category_map = dict()
