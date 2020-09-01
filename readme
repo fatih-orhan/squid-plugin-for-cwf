@@ -1,0 +1,42 @@
+For the configuration, first thing to do is putting below files into /etc/squid folder
+* cwf_redirect.py
+* fls_lookup.py
+* cwf_redirect_properties.conf
+* category_definitions.conf
+* GenerateUUID/createUUID.py (as it is in the folder)
+* GenerateUUID/generateUID.sh (as it is in the folder)
+
+Please, make sure that python installed and "/usr/bin/python"( most of the linux distributions have build-in support for this )
+
+After putting this script into /etc/squid, squid.conf at the same directory should be changed by adding these lines.
+    redirect_program /usr/bin/python /etc/squid/cwf_redirect.py
+    redirect_children 5
+
+And also you need to download requests for python.
+To install Requests,run this command in your terminal:
+    $ apt-get install python-requests
+
+cwf_redirect_properties.conf consists of two parts.
+	 One of the parts([properties]) includes url,invalid url(which is the redirection page if any site is blocked categories).
+	 The other part [categories] includes category name with enabled or disabled information.(Enabled = 1,Disabled = 0)
+category_definitions.conf consist of category_ids and respective category_labels to use in cwf_redirect_properties.conf file.
+For most of the times you do not need to change category_definitions file unless a new category is created or changed.
+To block any site that belongs to a category for example "Media Sharing" , you need to change the enable/disable information:
+Media Sharing=1
+to
+Media Sharing=0
+in file cwf_redirect_properties.conf
+
+After all these instructions applied, squid service should be restarted with:
+	systemctl restart squid
+
+By default squid is listening on port 3128. Using configurations in the attached screenshot any browser can be used for proxying.
+The proxy configuration can be checked from the screenshot: squid_proxy_configuration.png
+
+
+In addition,
+
+run script for just once.
+    ./etc/squid/GenerateUUID/generateUID.sh
+
+After that UUID is written in uuid.txt by this script.
