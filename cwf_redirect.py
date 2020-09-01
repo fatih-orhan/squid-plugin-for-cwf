@@ -1,18 +1,20 @@
 #!/usr/bin/env python
 
-import sys
+import sys, os
 import ConfigParser
 import logging
 import fls_lookup
 import traceback
 
-logging.basicConfig(filename="cwf_redirect.log", level=logging.DEBUG)
+current_path = os.path.dirname(os.path.abspath(__file__))
+logging.error("Current Patch : %s" %current_path)
+logging.basicConfig(filename="/etc/squid/cwf_redirect.log", level=logging.DEBUG)
 
 category_map = dict()
 allowedMap = dict()
 
 try:
-    uuid_file = open('uuid.txt', 'r')
+    uuid_file = open('/etc/squid/uuid.txt', 'r')
     UUID = uuid_file.read()
     if UUID == '':
         logging.error("uuid can not be empty!")
@@ -22,7 +24,7 @@ except:
 
 try:
     config = ConfigParser.ConfigParser()
-    config.readfp(open('cwf_redirect_properties.conf'))
+    config.readfp(open('/etc/squid/cwf_redirect_properties.conf'))
 except:
     e = sys.exc_info()[0]
     logging.error("cannot open properties file, error: %s" % e)
@@ -37,7 +39,7 @@ except:
     # created allowedMap by checking properties file
     # all url is checked it enabled or disabled and return the message
 try:
-    with open("category_definitions.conf") as l:
+    with open("/etc/squid/category_definitions.conf") as l:
         for url_line in l:
             one_line = url_line.split("=")
             category_map[int(one_line[0])] = one_line[1]

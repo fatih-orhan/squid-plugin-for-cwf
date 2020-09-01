@@ -25,7 +25,7 @@ CCSS = 4  # (byte value (cc 2 bytes, ss 2 byte))
 config = None
 try:
     config = ConfigParser.ConfigParser()
-    config.readfp(open('cwf_redirect_properties.conf'))
+    config.readfp(open('/etc/squid/cwf_redirect_properties.conf'))
 except:
     e = sys.exc_info()[0]
     logging.error("cannot open properties file, error: %s" % e)
